@@ -2,13 +2,11 @@
 title: "Non-SQL Server Subscribers | Microsoft Docs"
 ms.custom: ""
 ms.date: "08/29/2017"
-ms.prod: "sql-server-2016"
+ms.prod: sql
+ms.prod_service: "database-engine"
 ms.reviewer: ""
-ms.suite: ""
-ms.technology: 
-  - "replication"
-ms.tgt_pltfrm: ""
-ms.topic: "article"
+ms.technology: replication
+ms.topic: conceptual
 helpviewer_keywords: 
   - "subscriptions [SQL Server replication], non-SQL Server Subscribers"
   - "heterogeneous data sources, non-SQL Server Subscribers"
@@ -20,15 +18,14 @@ helpviewer_keywords:
   - "Subscribers [SQL Server replication], non-SQL Server Subscribers"
   - "non-SQL Server Subscribers"
 ms.assetid: 831e7586-2949-4b9b-a2f3-7b0b699b23ff
-caps.latest.revision: 55
-author: "BYHAM"
-ms.author: "rickbyh"
-manager: "jhubbard"
+author: "MashaMSFT"
+ms.author: "mathoma"
+manager: craigg
 ---
 # Non-SQL Server Subscribers  
-[!INCLUDE[tsql-appliesto-ss2008-xxxx-xxxx-xxx-md](../../../includes/tsql-appliesto-ss2008-xxxx-xxxx-xxx-md.md)]  
+[!INCLUDE[appliesto-ss-xxxx-xxxx-xxx-md](../../../includes/appliesto-ss-xxxx-xxxx-xxx-md.md)]
 
-The following non-[!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] Subscribers can subscribe to snapshot and transactional publications using push subscriptions. Subscriptions are supported for the two most recent versions of each database listed using the most recent version of the OLE DB provider listed.  
+The following non- [!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] Subscribers can subscribe to snapshot and transactional publications using push subscriptions. Subscriptions are supported for the two most recent versions of each database listed using the most recent version of the OLE DB provider listed.  
   
  Heterogeneous replication to non-SQL Server subscribers is deprecated. Oracle Publishing is deprecated. To move data, create solutions using change data capture and [!INCLUDE[ssIS](../../../includes/ssis-md.md)].  
   
@@ -57,7 +54,7 @@ Oracle version information:
 For information about creating subscriptions to Oracle and IBM DB2, see [Oracle Subscribers](../../../relational-databases/replication/non-sql/oracle-subscribers.md) and [IBM DB2 Subscribers](../../../relational-databases/replication/non-sql/ibm-db2-subscribers.md).  
   
 ## Considerations for Non-SQL Server Subscribers  
- Keep the following considerations in mind when replicating to non-[!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] Subscribers:  
+ Keep the following considerations in mind when replicating to non- [!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] Subscribers:  
   
 ### General Considerations  
   

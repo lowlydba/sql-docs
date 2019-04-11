@@ -2,12 +2,9 @@
 title: "sys.dm_os_loaded_modules (Transact-SQL) | Microsoft Docs"
 ms.custom: ""
 ms.date: "08/18/2017"
-ms.prod: "sql-non-specified"
+ms.prod: sql
 ms.reviewer: ""
-ms.suite: ""
-ms.technology: 
-  - "database-engine"
-ms.tgt_pltfrm: ""
+ms.technology: system-objects
 ms.topic: "language-reference"
 f1_keywords: 
   - "sys.dm_os_loaded_modules"
@@ -19,10 +16,9 @@ dev_langs:
 helpviewer_keywords: 
   - "sys.dm_os_loaded_modules dynamic management view"
 ms.assetid: 56c7743a-b568-4943-bd3b-73c57d9d641c
-caps.latest.revision: 20
-author: "JennieHubbard"
-ms.author: "jhubbard"
-manager: "jhubbard"
+author: stevestein
+ms.author: sstein
+manager: craigg
 ---
 # sys.dm_os_loaded_modules (Transact-SQL)
 [!INCLUDE[tsql-appliesto-ss2008-xxxx-xxxx-xxx-md](../../includes/tsql-appliesto-ss2008-xxxx-xxxx-xxx-md.md)]

@@ -1,42 +1,40 @@
 ---
-title: "Best Practices for Data Migration Assistant (SQL Server) | Microsoft Docs"
-ms.custom: 
-ms.date: "08/24/2017"
-ms.prod: "sql-non-specified"
+title: "Best practices for Data Migration Assistant (SQL Server) | Microsoft Docs"
+description: Learn best practices for migrating SQL Server databases with Data Migration Assistant
+ms.custom: ""
+ms.date: "03/12/2019"
+ms.prod: sql
+ms.prod_service: "dma"
 ms.reviewer: ""
-ms.suite: ""
-ms.technology: 
-  - "sql-dma"
-ms.tgt_pltfrm: ""
-ms.topic: "article"
+ms.technology: dma
+ms.topic: conceptual
 keywords: ""
 helpviewer_keywords: 
   - "Data Migration Assistant, Best Practices"
 ms.assetid: ""
-caps.latest.revision: ""
-author: "sabotta"
-ms.author: "carlasab"
-manager: "craigg"
+author: HJToland3
+ms.author: rajpo
+manager: craigg
 ---
 
 
-# Best practices for Running Data Migration Assistant:
+# Best practices for running Data Migration Assistant
+This article provides some best practice information for installation, assessment, and migration.
 
+## Installation
+Don't install and run the Data Migration Assistant directly on the SQL Server host machine.
 
-**General**
-
-Do not install and run Data Migration Assistance (DMA) directly on the SQL Server host machine.
-
-**Assessment**
-
+## Assessment
 - Run assessments on production databases during non-peak times.
+- Perform the **Compatibility issues** and **New feature recommendations** assessments separately to reduce the assessment duration.
 
-- Perform the “Compatibility issues” and “New feature recommendations” assessments separately to reduce the assessment duration.
+## Migration
+- Migrate a server during non-peak times.
 
-**Migration**
+- When migrating a database, provide a single share location accessible by the source server and the target server, and avoid a copy operation if possible. A copy operation may introduce delay based on the size of the backup file. The copy operation also increases the chances that a migration will fail because of an extra step. When a single location is provided, Data Migration Assistant bypasses the copy operation.
+ 
+    In addition, be sure that to provide the correct permissions to the shared folder to avoid migration failures. The correct permissions are specified in the tool. If a SQL Server instance runs under Network Service credentials, give the correct permissions on the shared folder to the machine account for the SQL Server instance.
 
-Migrate a server during non-peak times.
+- Enable encrypt connection when connecting to the source and target servers. Using SSL encryption increases the security of data transmitted across the networks between Data Migration Assistant and the SQL Server instance, which is beneficial especially when migrating SQL logins. If SSL encryption isn't used and the network is compromised by an attacker, the SQL logins being migrated could get intercepted and/or modified on-the-fly by the attacker.
 
-When migrating a database, provide a single share location accessible by source server and target server, and avoid copy operation if possible. Based on the size of the backup file, copy operation will introduce delay. It also increases the chances of failing migration due to an extra step. If a single location is provided, then DMA will bypass copy operation. However, please make sure that the correct permissions are given to the shared folder to avoid migration failures. The correct permissions are specified in the tool. If SQL Server instance runs under Network Service credentials, then give the machine account of the instance the correct permissions on the shared folder.
-
-Enable "encrypt connection" when connecting to Source and Target server. Using SSL encryption increases the security of data transmitted across the networks between DMA and the SQL Server instance. This is beneficial especially when migrating SQL Logins. If SSL encryption is not used and the network is compromised by an attacker, then the SQL Logins being migrated could get intercepted and/or modified, on-the-fly by the attacker. However, if all access involves a secure intranet configuration, encryption might not be required. Enabling encryption does slow performance due to extra overhead to encrypt and decrypt packets. For more information please refer to [Encrypting Connections to SQL Server](https://go.microsoft.com/fwlink/?linkid=832513).
+    However, if all access involves a secure intranet configuration, encryption might not be required. Enabling encryption slows performance because the extra overhead that is required to encrypt and decrypt packets. For more information, please refer to [Encrypting Connections to SQL Server](https://go.microsoft.com/fwlink/?linkid=832513).

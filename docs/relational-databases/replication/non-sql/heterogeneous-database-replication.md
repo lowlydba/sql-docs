@@ -2,31 +2,29 @@
 title: "Heterogeneous Database Replication | Microsoft Docs"
 ms.custom: ""
 ms.date: "08/28/2017"
-ms.prod: "sql-server-2016"
+ms.prod: sql
+ms.prod_service: "database-engine"
 ms.reviewer: ""
-ms.suite: ""
-ms.technology: 
-  - "replication"
-ms.tgt_pltfrm: ""
-ms.topic: "article"
+ms.technology: replication
+ms.topic: conceptual
 helpviewer_keywords: 
   - "heterogeneous database replication, about heterogeneous database replication"
   - "replication [SQL Server], heterogeneous database replication"
   - "heterogeneous database replication"
 ms.assetid: 3fd983ad-e206-45db-9054-417c9b5bb815
-caps.latest.revision: 41
-author: "BYHAM"
-ms.author: "rickbyh"
-manager: "jhubbard"
+author: "MashaMSFT"
+ms.author: "mathoma"
+manager: craigg
 ---
 # Heterogeneous Database Replication  
-[!INCLUDE[tsql-appliesto-ss2008-xxxx-xxxx-xxx-md](../../../includes/tsql-appliesto-ss2008-xxxx-xxxx-xxx-md.md)]
+[!INCLUDE[appliesto-ss-xxxx-xxxx-xxx-md](../../../includes/appliesto-ss-xxxx-xxxx-xxx-md.md)]
 
 [!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] supports the following heterogeneous scenarios for transactional and snapshot replication:  
   
 -   Publishing data from [!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] to non-[!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] Subscribers.  
 
 -   Publishing data to and from Oracle has the following restrictions:  
+
   | |2016 or earlier |2017 or later |
   |-------|-------|--------|
   |Replication from Oracle |Only support Oracle 10g or earlier |Only support Oracle 10g or earlier |
@@ -50,7 +48,7 @@ manager: "jhubbard"
  For more information, see [Oracle Publishing Overview](../../../relational-databases/replication/non-sql/oracle-publishing-overview.md).  
   
 ## Publishing Data to Non-SQL Server Subscribers  
- The following non-[!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] databases are supported as Subscribers to snapshot and transactional publications:  
+ The following non- [!INCLUDE[ssNoVersion](../../../includes/ssnoversion-md.md)] databases are supported as Subscribers to snapshot and transactional publications:  
   
 -   Oracle for all platforms that Oracle supports.  
   

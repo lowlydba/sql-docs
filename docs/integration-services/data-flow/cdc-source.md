@@ -2,23 +2,20 @@
 title: "CDC Source | Microsoft Docs"
 ms.custom: ""
 ms.date: "03/14/2017"
-ms.prod: "sql-server-2016"
+ms.prod: sql
+ms.prod_service: "integration-services"
 ms.reviewer: ""
-ms.suite: ""
-ms.technology: 
-  - "integration-services"
-ms.tgt_pltfrm: ""
-ms.topic: "article"
+ms.technology: integration-services
+ms.topic: conceptual
 f1_keywords: 
   - "sql13.ssis.designer.cdcsource.f1"
   - "sql13.ssis.designer.cdcsource.connection.f1"
   - "sql13.ssis.designer.cdcsource.columns.f1"
   - "sql13.ssis.designer.cdcsource.errorhandling.f1"
 ms.assetid: 99775608-e177-44ed-bb44-aaccb0f4f327
-caps.latest.revision: 11
-author: "douglaslMS"
-ms.author: "douglasl"
-manager: "jhubbard"
+author: janinezhang
+ms.author: janinez
+manager: craigg
 ---
 # CDC Source
   The CDC source reads a range of change data from [!INCLUDE[ssCurrent](../../includes/sscurrent-md.md)] change tables and delivers the changes downstream to other SSIS components.  
@@ -63,7 +60,7 @@ manager: "jhubbard"
 ### Use this script to isolate problems and reproduce them in SQL Server Management Studio  
  The CDC source operation is governed by the operation of the CDC Control task executed before invoking the CDC source. The CDC Control task prepares the value of the CDC state package variable to contain the start and end LSNs. It performs function equivalent to the following script:  
   
-```  
+```sql
 use <cdc-enabled-database-name>  
                declare @start_lsn binary(10), @end_lsn binary(10)  
                set @start_lsn = sys.fn_cdc_increment_lsn(  
@@ -243,6 +240,6 @@ use <cdc-enabled-database-name>
   
 ## Related Content  
   
--   Blog entry, [Processing Modes for the CDC Source](http://www.mattmasson.com/2012/01/processing-modes-for-the-cdc-source/), on mattmasson.com.  
+-   Blog entry, [Processing Modes for the CDC Source](https://www.mattmasson.com/2012/01/processing-modes-for-the-cdc-source/), on mattmasson.com.  
   
   

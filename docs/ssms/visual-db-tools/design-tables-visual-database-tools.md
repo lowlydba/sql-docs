@@ -2,13 +2,11 @@
 title: "Create and Update Tables (SSMS) | Microsoft Docs"
 ms.custom: ""
 ms.date: "08/25/2017"
-ms.prod: "sql-non-specified"
+ms.prod: sql
+ms.prod_service: "sql-tools"
 ms.reviewer: ""
-ms.suite: ""
-ms.technology: 
-  - "tools-ssms"
-ms.tgt_pltfrm: ""
-ms.topic: "article"
+ms.technology: ssms
+ms.topic: conceptual
 helpviewer_keywords: 
   - "Visual Database Tools [SQL Server], Table Designer"
   - "Table Designer, designing tables"
@@ -17,13 +15,13 @@ helpviewer_keywords:
   - "tables [SQL Server], opening"
   - "Table Designer, opening"
 ms.assetid: c49e0155-5dcb-481f-9538-e1bde77105e2
-caps.latest.revision: 3
 author: "stevestein"
 ms.author: "sstein"
-manager: "craigg"
+manager: craigg
+
 ---
 # Create and update database tables
-
+[!INCLUDE[appliesto-ss-asdb-asdw-pdw-md](../../includes/appliesto-ss-asdb-asdw-pdw-md.md)]
 The Table Designer is a visual tool where you design and visualize [database tables](../../relational-databases/tables/tables.md). Use the SQL Server Management Studio (SSMS) Table Designer to create, edit, or delete tables, columns, keys, indexes, relationships, and constraints.  
 
   
@@ -53,7 +51,7 @@ The Table Designer is a visual tool where you design and visualize [database tab
 
 ## See Also
 
-[Tables](http://msdn.microsoft.com/82d7819c-b801-4309-a849-baa63083e83f)  
+[Tables](../../relational-databases/tables/tables.md)  
 [Table Properties &#40;Visual Database Tools&#41;](../../ssms/visual-db-tools/table-properties-visual-database-tools.md)  
 [Column Properties](column-properties-visual-database-tools.md)  
 [Add Columns to a Table](../../relational-databases/tables/add-columns-to-a-table-database-engine.md)  
@@ -61,3 +59,4 @@ The Table Designer is a visual tool where you design and visualize [database tab
 [Indexes](../../relational-databases/indexes/indexes.md)  
 [Data types (Transact-SQL)](../../t-sql/data-types/data-types-transact-sql.md)  
 [Download SQL Server Management Studio (SSMS)](../download-sql-server-management-studio-ssms.md)  
+[Create a database and add tables in Visual Studio](/visualstudio/data-tools/create-a-sql-database-by-using-a-designer)

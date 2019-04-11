@@ -1,16 +1,9 @@
 ---
 title: "sp_delete_database_firewall_rule (Azure SQL Database) | Microsoft Docs"
-ms.custom: 
-  - "MSDN content"
-  - "MSDN - SQL DB"
+ms.custom: ""
 ms.date: "08/04/2017"
-ms.prod: 
+ms.service: sql-database
 ms.reviewer: ""
-ms.service: "sql-database"
-ms.suite: ""
-ms.technology: 
-  - "database-engine"
-ms.tgt_pltfrm: ""
 ms.topic: "language-reference"
 f1_keywords: 
   - "sp_delete_database_firewall_rule"
@@ -22,13 +15,13 @@ dev_langs:
 helpviewer_keywords: 
   - "sp_delete_database_firewall_rule procedure"
 ms.assetid: ed295312-e586-4fc2-9e80-806b490ee7bd
-caps.latest.revision: 13
-author: "BYHAM"
-ms.author: "rickbyh"
-manager: "jhubbard"
+author: VanMSFT
+ms.author: vanto
+manager: craigg
+monikerRange: "= azuresqldb-current || = sqlallproducts-allversions"
 ---
 # sp_delete_database_firewall_rule (Azure SQL Database)
-[!INCLUDE[tsql-appliesto-xxxxxx-asdb-asdw-xxx_md](../../includes/tsql-appliesto-xxxxxx-asdb-xxxx-xxx-md.md)]
+[!INCLUDE[tsql-appliesto-xxxxxx-asdb-xxxx-xxx-md](../../includes/tsql-appliesto-xxxxxx-asdb-xxxx-xxx-md.md)]
 
   Removes database-level firewall setting from your [!INCLUDE[ssSDSfull](../../includes/sssdsfull-md.md)]. Database firewall rules can be configured and deleted for the master database, and for user databases on [!INCLUDE[ssSDS_md](../../includes/sssds-md.md)].   
   
@@ -42,7 +35,7 @@ sp_delete_database_firewall_rule [@name =] [N]'name'
 ```  
   
 ## Arguments  
- [**@name =**] **'***name***'**  
+ [**@name =**] **'**_name_**'**  
  The name of the database-level firewall setting that will be removed. *name* is **nvarchar(128)** with no default value. The Unicode identifier `N` is optional for [!INCLUDE[ssSDS_md](../../includes/sssds-md.md)]. 
   
 ## Permissions  

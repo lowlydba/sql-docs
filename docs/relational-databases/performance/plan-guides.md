@@ -2,13 +2,10 @@
 title: "Plan Guides | Microsoft Docs"
 ms.custom: ""
 ms.date: "03/14/2017"
-ms.prod: "sql-server-2016"
+ms.prod: sql
 ms.reviewer: ""
-ms.suite: ""
-ms.technology: 
-  - "dbe-plan-guides"
-ms.tgt_pltfrm: ""
-ms.topic: "article"
+ms.technology: performance
+ms.topic: conceptual
 helpviewer_keywords: 
   - "TEMPLATE plan guide"
   - "SQL plan guides"
@@ -20,17 +17,17 @@ helpviewer_keywords:
   - "plan guides [SQL Server]"
   - "USE PLAN query hint"
 ms.assetid: bfc97632-c14c-4768-9dc5-a9c512f6b2bd
-caps.latest.revision: 52
-author: "JennieHubbard"
-ms.author: "jhubbard"
-manager: "jhubbard"
+author: julieMSFT
+ms.author: jrasnick
+manager: craigg
 ---
 # Plan Guides
+[!INCLUDE[appliesto-ss-asdb-xxxx-xxx-md](../../includes/appliesto-ss-asdb-xxxx-xxx-md.md)]
   Plan guides let you optimize the performance of queries when you cannot or do not want to directly change the text of the actual query in [!INCLUDE[ssCurrent](../../includes/sscurrent-md.md)]. Plan guides influence the optimization of queries by attaching query hints or a fixed query plan to them. Plan guides can be useful when a small subset of queries in a database application provided by a third-party vendor are not performing as expected. In the plan guide, you specify the Transact-SQL statement that you want optimized and either an OPTION clause that contains the query hints you want to use or a specific query plan you want to use to optimize the query. When the query executes, [!INCLUDE[ssNoVersion](../../includes/ssnoversion-md.md)] matches the Transact-SQL statement to the plan guide and attaches the OPTION clause to the query at run time or uses the specified query plan.  
   
  The total number of plan guides you can create is limited only by available system resources. Nevertheless, plan guides should be limited to mission-critical queries that are targeted for improved or stabilized performance. Plan guides should not be used to influence most of the query load of a deployed application.  
   
-> [!NOTE]  
+> [!NOTE]
 >  Plan guides cannot be used in every edition of [!INCLUDE[msCoName](../../includes/msconame-md.md)][!INCLUDE[ssNoVersion](../../includes/ssnoversion-md.md)]. For a list of features that are supported by the editions of [!INCLUDE[ssNoVersion](../../includes/ssnoversion-md.md)], see [Features Supported by the Editions of SQL Server 2016](~/sql-server/editions-and-supported-features-for-sql-server-2016.md). Plan guides are visible in any edition. You can also attach a database that contains plan guides to any edition. Plan guides remain intact when you restore or attach a database to an upgraded version of [!INCLUDE[ssNoVersion](../../includes/ssnoversion-md.md)].  
   
 ## Types of Plan Guides  
@@ -41,7 +38,7 @@ manager: "jhubbard"
   
  Suppose the following stored procedure, which takes the `@Country_region` parameter, is in a database application that is deployed against the [!INCLUDE[ssSampleDBobject](../../includes/sssampledbobject-md.md)] database:  
   
-```t-sql  
+```sql  
 CREATE PROCEDURE Sales.GetSalesOrderByCountry (@Country_region nvarchar(60))  
 AS  
 BEGIN  
@@ -58,7 +55,7 @@ END;
   
  You could address this problem by modifying the stored procedure to add the `OPTIMIZE FOR` query hint to the query. However, because the stored procedure is in a deployed application, you cannot directly modify the application code. Instead, you can create the following plan guide in the [!INCLUDE[ssSampleDBobject](../../includes/sssampledbobject-md.md)] database.  
   
-```t-sql  
+```sql  
 sp_create_plan_guide   
 @name = N'Guide1',  
 @stmt = N'SELECT *FROM Sales.SalesOrderHeader AS h,  
@@ -78,13 +75,13 @@ sp_create_plan_guide
  ### SQL plan guide  
  An SQL plan guide matches queries that execute in the context of stand-alone [!INCLUDE[tsql](../../includes/tsql-md.md)] statements and batches that are not part of a database object. SQL-based plan guides can also be used to match queries that parameterize to a specified form. SQL plan guides apply to stand-alone [!INCLUDE[tsql](../../includes/tsql-md.md)] statements and batches. Frequently, these statements are submitted by an application by using the [sp_executesql](../../relational-databases/system-stored-procedures/sp-executesql-transact-sql.md) system stored procedure. For example, consider the following stand-alone batch:  
   
-```t-sql  
+```sql  
 SELECT TOP 1 * FROM Sales.SalesOrderHeader ORDER BY OrderDate DESC;  
 ```  
   
  To prevent a parallel execution plan from being generated on this query, create the following plan guide and set the `MAXDOP` query hint to `1` in the `@hints` parameter.  
   
-```t-sql  
+```sql  
 sp_create_plan_guide   
 @name = N'Guide2',   
 @stmt = N'SELECT TOP 1 * FROM Sales.SalesOrderHeader ORDER BY OrderDate DESC',  
@@ -93,7 +90,25 @@ sp_create_plan_guide
 @params = NULL,   
 @hints = N'OPTION (MAXDOP 1)';  
 ```  
-  
+As another example, consider the following SQL statement submitted using [sp_executesql](../../relational-databases/system-stored-procedures/sp-executesql-transact-sql.md).
+
+```sql  
+exec sp_executesql N'SELECT * FROM Sales.SalesOrderHeader
+where SalesOrderID =  @so_id', N'@so_id int', @so_id = 43662;  
+```  
+ To create a unique plan for every execution of this query, create the following plan guide and use the `OPTION (RECOMPILE)` query hint  in the `@hints` parameter. 
+
+```sql  
+exec sp_create_plan_guide   
+@name = N'PlanGuide1_SalesOrders',   
+@stmt = N'SELECT * FROM Sales.SalesOrderHeader
+where SalesOrderID =  @so_id',
+@type = N'SQL',  
+@module_or_batch = NULL,   
+@params = N'@so_id int',   
+@hints = N'OPTION (recompile)';
+```
+
 > [!IMPORTANT]  
 >  The values that are supplied for the `@module_or_batch` and `@params` arguments of the `sp_create_plan guide` statement must match the corresponding text submitted in the actual query. For more information, see [sp_create_plan_guide &#40;Transact-SQL&#41;](../../relational-databases/system-stored-procedures/sp-create-plan-guide-transact-sql.md) and [Use SQL Server Profiler to Create and Test Plan Guides](../../relational-databases/performance/use-sql-server-profiler-to-create-and-test-plan-guides.md).  
   
@@ -111,13 +126,13 @@ sp_create_plan_guide
 ## Plan Guide Matching Requirements  
  Plan guides are scoped to the database in which they are created. Therefore, only plan guides that are in the database that is current when a query executes can be matched to the query. For example, if [!INCLUDE[ssSampleDBobject](../../includes/sssampledbobject-md.md)] is the current database and the following query executes:  
   
- ```t-sql
+ ```sql
  SELECT FirstName, LastName FROM Person.Person;
  ```  
   
  Only plan guides in the [!INCLUDE[ssSampleDBobject](../../includes/sssampledbobject-md.md)] database are eligible to be matched to this query. However, if [!INCLUDE[ssSampleDBobject](../../includes/sssampledbobject-md.md)] is the current database and the following statements are run:  
   
- ```t-sql
+ ```sql
  USE DB1; 
  SELECT FirstName, LastName FROM Person.Person;
  ```  

@@ -1,34 +1,46 @@
 ---
-title: Install SQL Server 2017 on Linux | Microsoft Docs
-description: Install, update, and uninstall SQL Server on Linux. This topic covers online, offline, and unattended scenarios. 
+title: Installation guidance for SQL Server on Linux | Microsoft Docs
+description: Install, update, and uninstall SQL Server on Linux. This article covers online, offline, and unattended scenarios. 
 author: rothja 
 ms.author: jroth 
-manager: jhubbard
-ms.date: 08/28/2017
-ms.topic: article
-ms.prod: sql-linux
-ms.technology: database-engine
+manager: craigg
+ms.date: 04/07/2018
+ms.topic: conceptual
+ms.prod: sql
+ms.custom: "sql-linux"
+ms.technology: linux
 ms.assetid: 565156c3-7256-4e63-aaf0-884522ef2a52
 ---
 # Installation guidance for SQL Server on Linux
 
-[!INCLUDE[tsql-appliesto-sslinux-only](../includes/tsql-appliesto-sslinux-only.md)]
+[!INCLUDE[appliesto-ss-xxxx-xxxx-xxx-md-linuxonly](../includes/appliesto-ss-xxxx-xxxx-xxx-md-linuxonly.md)]
 
-This topic explains how to install, update, and uninstall SQL Server 2017 on Linux. SQL Server 2017 RC2 is supported on Red Hat Enterprise Linux (RHEL), SUSE Linux Enterprise Server (SLES), and Ubuntu. It is also available as a Docker image, which can run on Docker Engine on Linux or Docker for Windows/Mac.
+This article provides guidance for installing, updating, and uninstalling SQL Server 2017 and SQL Server 2019 preview on Linux.
 
 > [!TIP]
-> To get started quickly, jump to one of the quick start tutorials for [RHEL](quickstart-install-connect-red-hat.md), [SLES](quickstart-install-connect-suse.md), [Ubuntu](quickstart-install-connect-ubuntu.md), or [Docker](quickstart-install-connect-docker.md).
+> This guide coves several deployment scenarios. If you are only looking for step-by-step installation instructions, jump to one of the quickstarts:
+> - [RHEL quickstart](quickstart-install-connect-red-hat.md)
+> - [SLES quickstart](quickstart-install-connect-suse.md)
+> - [Ubuntu quickstart](quickstart-install-connect-ubuntu.md)
+> - [Docker quickstart](quickstart-install-connect-docker.md)
+
+For answers to frequently asked questions, see the [SQL Server on Linux FAQ](../linux/sql-server-linux-faq.md).
 
 ## <a id="supportedplatforms"></a> Supported platforms
 
-SQL Server 2017 is supported on the following Linux platforms:
+SQL Server 2017 is supported on Red Hat Enterprise Linux (RHEL), SUSE Linux Enterprise Server (SLES), and Ubuntu. It is also supported as a Docker image, which can run on Docker Engine on Linux or Docker for Windows/Mac.
 
 | Platform | Supported version(s) | Get
 |-----|-----|-----
-| **Red Hat Enterprise Linux** | 7.3 | [Get RHEL 7.3](http://access.redhat.com/products/red-hat-enterprise-linux/evaluation)
+| **Red Hat Enterprise Linux** | 7.3, 7.4, 7.5, 7.6 | [Get RHEL 7.6](https://access.redhat.com/products/red-hat-enterprise-linux/evaluation)
 | **SUSE Linux Enterprise Server** | v12 SP2 | [Get SLES v12 SP2](https://www.suse.com/products/server)
-| **Ubuntu** | 16.04 | [Get Ubuntu 16.04](http://www.ubuntu.com/download/server)
-| **Docker Engine** | 1.8+ | [Get Docker](http://www.docker.com/products/overview)
+| **Ubuntu** | 16.04 | [Get Ubuntu 16.04](https://www.ubuntu.com/download/server)
+| **Docker Engine** | 1.8+ | [Get Docker](https://www.docker.com/products/overview)
+
+Microsoft also supports deploying and managing SQL Server containers by using OpenShift and Kubernetes.
+
+> [!NOTE]
+> SQL Server is tested and supported on Linux for the previously listed distributions. If you choose to install SQL Server on an unsupported operating system, please review the **Support policy** section of the [Technical support policy for Microsoft SQL Server](https://support.microsoft.com/help/4047326/support-policy-for-microsoft-sql-server) to understand the support implications.
 
 ## <a id="system"></a> System requirements
 
@@ -36,24 +48,41 @@ SQL Server 2017 has the following system requirements for Linux:
 
 |||
 |-----|-----|
-| **Memory** | 3.25 GB |
+| **Memory** | 2 GB |
 | **File System** | **XFS** or **EXT4** (other file systems, such as **BTRFS**, are unsupported) |
 | **Disk space** | 6 GB |
 | **Processor speed** | 2 GHz |
 | **Processor cores** | 2 cores |
 | **Processor type** | x64-compatible only |
 
-> [!NOTE]
-> SQL Server Engine has been tested up to 1 TB of memory at this time.
+If you use **Network File System (NFS)** remote shares in production, note the following support requirements:
 
-## <a id="platforms"></a> Install SQL Server
+- Use NFS version **4.2 or higher**. Older versions of NFS do not support required features, such as fallocate and sparse file creation, common to modern file systems.
+- Locate only the **/var/opt/mssql** directories on the NFS mount. Other files, such as the SQL Server system binaries, are not supported.
+- Ensure that NFS clients use the 'nolock' option when mounting the remote share.
 
-You can install SQL Server on Linux from the command-line. For instructions, see one of the following quick start tutorials:
+## <a id="repositories"></a> Configure source repositories
+
+When you install or upgrade SQL Server, you get the latest version of SQL Server from your configured Microsoft repository. The quickstarts use the SQL Server 2017 Cumulative Update **CU** repository. But you can instead configure the **GDR** repository or the **Preview (vNext)** repository. For more information on repositories and how to configure them, see [Configure repositories for SQL Server on Linux](sql-server-linux-change-repo.md).
+
+> [!IMPORTANT]
+> If you previously installed a CTP or RC version of SQL Server 2017, you must remove the preview repository and register a General Availability (GA) one. For more information, see [Configure repositories for SQL Server on Linux](sql-server-linux-change-repo.md).
+
+## <a id="platforms"></a> Install SQL Server 2017
+
+You can install SQL Server 2017 on Linux from the command line. For step-by-step instructions, see one of the following quickstarts:
 
 - [Install on Red Hat Enterprise Linux](quickstart-install-connect-red-hat.md)
 - [Install on SUSE Linux Enterprise Server](quickstart-install-connect-suse.md)
 - [Install on Ubuntu](quickstart-install-connect-ubuntu.md)
 - [Run on Docker](quickstart-install-connect-docker.md)
+- [Provision a SQL VM in Azure](/azure/virtual-machines/linux/sql/provision-sql-server-linux-virtual-machine?toc=%2fsql%2flinux%2ftoc.json)
+
+## <a id="sqlvnext"></a> Install SQL Server 2019 preview
+
+You can install SQL Server 2019 preview on Linux using the same quickstart links in the previous section. However, you must register the **Preview (vNext)** repository instead of the **CU** repository. The quickstarts provide instructions on how to do this.  
+
+After installing, consider making additional configuration changes for optimal performance. For more information, see [Performance best practices and configuration guidelines for SQL Server on Linux](sql-server-linux-performance-best-practices.md).
 
 ## <a id="upgrade"></a> Update SQL Server
 
@@ -66,6 +95,9 @@ To update the **mssql-server** package to the latest release, use one of the fol
 | Ubuntu | `sudo apt-get update`<br/>`sudo apt-get install mssql-server` |
 
 These commands download the newest package and replace the binaries located under `/opt/mssql/`. The user generated databases and system databases are not affected by this operation.
+
+> [!TIP]
+> If you first [change your configured repository](sql-server-linux-change-repo.md), it is possible for the **update** command to upgrade your version of SQL Server. This is only the case if the upgrade path is supported between the two repositories.
 
 ## <a id="rollback"></a> Rollback SQL Server
 
@@ -84,8 +116,17 @@ To rollback or downgrade SQL Server to a previous release, use the following ste
 > [!NOTE]
 > It is only supported to downgrade to a release within the same major version, such as SQL Server 2017.
 
-> [!IMPORTANT]
-> Downgrade is only supported between RC2 and RC1 at this time.
+## <a id="versioncheck"></a> Check installed SQL Server version
+
+To verify your current version and edition of SQL Server on Linux, use the following procedure:
+
+1. If not already installed, install the [SQL Server command-line tools](sql-server-linux-setup-tools.md).
+
+1. Use **sqlcmd** to run a Transact-SQL command that displays your SQL Server version and edition.
+
+   ```bash
+   sqlcmd -S localhost -U SA -Q 'select @@VERSION'
+   ```
 
 ## <a id="uninstall"></a> Uninstall SQL Server
 
@@ -107,7 +148,7 @@ sudo rm -rf /var/opt/mssql/
 
 You can perform an unattended installation in the following way:
 
-- Follow the initial steps in the [quick start tutorials](#platforms) to register the repositories and install SQL Server.
+- Follow the initial steps in the [quickstarts](#platforms) to register the repositories and install SQL Server.
 - When you run `mssql-conf setup`, set [environment variables](sql-server-linux-configure-environment-variables.md) and use the `-n` (no prompt) option.
 
 The following example configures the Developer edition of SQL Server with the **MSSQL_PID** environment variable. It also accepts the EULA (**ACCEPT_EULA**) and sets the SA user password (**MSSQL_SA_PASSWORD**). The `-n` parameter performs an unprompted installation where the configuration values are pulled from the environment variables.
@@ -129,7 +170,7 @@ For a more detailed sample script, see the following examples:
 If your Linux machine does not have access to the online repositories used in the [quick starts](#platforms), you can download the package files directly. These packages are located in the Microsoft repository, [https://packages.microsoft.com](https://packages.microsoft.com).
 
 > [!TIP]
-> If you successfully installed with the steps in the quick starts, you do not need to download or manually install the package(s) below. This section is only for the offline scenario.
+> If you successfully installed with the steps in the quick starts, you do not need to download or manually install the SQL Server package(s). This section is only for the offline scenario.
 
 1. **Download the database engine package for your platform**. Find package download links in the package details section of the [Release Notes](sql-server-linux-release-notes.md).
 
@@ -137,7 +178,7 @@ If your Linux machine does not have access to the online repositories used in th
 
 1. **Install the database engine package**. Use one of the following commands based on your platform. Replace the package file name in this example with the exact name you downloaded.
 
-   | Platform | Package removal command |
+   | Platform | Package install command |
    |-----|-----|
    | RHEL | `sudo yum localinstall mssql-server_versionnumber.x86_64.rpm` |
    | SLES | `sudo zypper install mssql-server_versionnumber.x86_64.rpm` |
@@ -162,18 +203,20 @@ If your Linux machine does not have access to the online repositories used in th
    sudo /opt/mssql/bin/mssql-conf setup
    ```
 
-## Next steps
+## Licensing and pricing
 
-After installation, you can also install other optional SQL Server packages.
+SQL Server is licensed the same for Linux and Windows. For more information about SQL Server licensing and pricing, see [How to license SQL Server](https://www.microsoft.com/sql-server/sql-server-2017-pricing).
+
+## Optional SQL Server features
+
+After installation, you can also install or enable optional SQL Server features.
 
 - [SQL Server command-line tools](sql-server-linux-setup-tools.md)
 - [SQL Server Agent](sql-server-linux-setup-sql-agent.md)
 - [SQL Server Full Text Search](sql-server-linux-setup-full-text-search.md)
-- [SQL Server Integration Services (Ubuntu)](sql-server-linux-setup-ssis.md)
+- [SQL Server Integration Services](sql-server-linux-setup-ssis.md)
 
-Connect to your SQL Server instance to begin creating and managing databases. To get started, see the quick start tutorials:
+[!INCLUDE[Get Help Options](../includes/paragraph-content/get-help-options.md)]
 
-- [Install on Red Hat Enterprise Linux](quickstart-install-connect-red-hat.md)
-- [Install on SUSE Linux Enterprise Server](quickstart-install-connect-suse.md)
-- [Install on Ubuntu](quickstart-install-connect-ubuntu.md)
-- [Run on Docker](quickstart-install-connect-ubuntu.md)
+> [!TIP]
+> For answers to frequently asked questions, see the [SQL Server on Linux FAQ](sql-server-linux-faq.md).
